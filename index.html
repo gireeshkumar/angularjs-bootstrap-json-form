@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html ng-app="myApp">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Project Evaluation</title>
+
+		<link href="lib/select2-release-3.2/select2.css" rel="stylesheet"/>
+		<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="css/app.css" rel="stylesheet" media="screen">
+
+	</head>
+	<body ng-controller="ApplicationController" >
+
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+
+					<a class="brand" href="#">UST Project Review</a>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+
+						</ul>
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+
+		<div class="container"  style="padding-top:70px">
+			<form class="css-form">
+				<!--
+				<ul class="breadcrumb mywizard">
+					<li  ng-repeat="mgroup in groups"  ng-class="{true: 'active', false: ''}[mgroup == currentGroup]">
+						<a href="#" ng-click="handleBreadcrumb($index)"><span class="badge">{{$index + 1}}</span>&nbsp;{{mgroup.name}}</a>
+					</li>
+				</ul>
+				-->
+
+				<ul class="breadcrumb">
+				  <li ng-repeat="mgroup in groups"  ng-class="{true: 'active', false: ''}[mgroup == currentGroup]">
+				  		
+				  		<ng-switch on="mgroup == currentGroup">
+				  			<span  ng-switch-when="false">
+				  				<a  href="#" 
+				  				ng-click="handleBreadcrumb($index)">&nbsp;{{mgroup.name}}</a> <span class="divider">/</span>
+				  			</span>
+
+				  			<span  ng-switch-when="true">&nbsp;{{mgroup.name}} <span class="divider">/</span></span>
+				  		</ng-switch>
+
+				  </li>
+				</ul>
+
+				<div class="container-fluid">
+					<div class="row-fluid">
+
+						<fieldset >
+							<div id="legend" class="">
+								<legend class="">
+									{{currentGroup.name}}
+								</legend>
+							</div>
+
+							<div class="span5"   ng-repeat="questgrp in currentGroup.groups">
+
+								<div class="control-group" ng-repeat="quest in questgrp.questions">
+
+									<!-- Text input-->
+									<label class="control-label" for="input01">{{quest.label}}</label>
+									<div class="controls">
+										<ng-switch on="quest.type">
+											
+
+											<input ng-switch-when="number" type="number" class="input-xlarge" select2
+											placeholder="{{quest.placeholder}}" rel="tooltip" data-original-title="{{quest.help}}">
+
+											<input ng-switch-when="email" type="email" class="input-xlarge" select2
+											placeholder="{{quest.placeholder}}" rel="tooltip" data-original-title="{{quest.help}}">
+
+											<textarea ng-switch-when="textarea" rel="tooltip" class="input-xlarge" data-original-title="{{quest.help}}" select2></textarea>										
+											
+											<div class="btn-group btn-group-vertical"  data-toggle="buttons-radio"  ng-switch-when="singleselection1">
+												<button class="btn btn-info btn-large btn-block" ng-repeat="opt in quest.options">{{opt}}</button>
+											</div>
+
+
+											<input ng-switch-default type="text" class="input-xlarge" select2
+											placeholder="{{quest.placeholder}}" rel="tooltip" data-original-title="{{quest.help}}">	
+
+
+											
+										</ng-switch>
+
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</fieldset>
+
+					</div>
+				</div>
+			</form>
+			
+			<div style="width:100%">
+				<hr/>
+				<div class="pagination" style="float:right">
+					<ul>
+						<li ng-class="{true: 'disabled', false: ''}[curPage == 0]">
+							<a href="#"  ng-click="handleBreadcrumb(curPage-1)">Prev</a>
+						</li>
+
+						<li ng-repeat="mgroup in groups" ng-class="{true: 'active', false: ''}[mgroup == currentGroup]">
+							<a href="#" ng-click="handleBreadcrumb($index)">{{$index + 1}}</a>
+						</li>
+
+						<li ng-class="{true: 'disabled', false: ''}[curPage+1 == groups.length]">
+							<a href="#" ng-click="handleBreadcrumb(curPage+1)">Next</a>
+						</li>
+					</ul>
+				</div>
+				<!--<div>{{totalQuestions}} of {{getCompletedCount()}} [{{getProgress()}}] <br/>{{result}}</div> -->
+				<div class="progress progress-striped active" style="width:300px">
+				  <div class="bar" 
+				  		ng-class="{true: 'bar-success', false: ''}[getProgress() == 100]"
+
+				  		style="width: {{getProgress()}}%;text-align:'center'"></div>{{getProgress()}}%
+				</div>
+
+			</div>
+			<button class="btn btn-primary" ng-click="sendEmail()">Send</button>
+			<!--
+			<button class="btn btn-primary" ng-click="resetData()">Reset</button>
+		-->
+			
+		</div>
+		<!-- Scripts -->
+
+		<script src="lib/jquery-1.8.3.min.js"></script>
+		<script src="lib/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
+		<script src="lib/select2-release-3.2/select2.js"></script>
+
+		<script src="lib/angular.min.js"></script>
+		<script src="js/data.js"></script>
+		<script src="js/app.js"></script>
+
+		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+	</body>
+</html>
